@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <time.h>
+#define Loca_IP "192.168.1.40"
+#define Loca_Prot 8080
+int main()
+{
+	int Over=0;
+	int se_socket,cl_socket;
+	struct sockaddr_in se_addr,cl_addr;	
+	se_addr.sin_family=AF_INET;
+	se_addr.sin_port=htons(Loca_Prot);
+	se_addr.sin_addr.s_addr=inet_addr(Loca_IP);
+	se_socket=socket(AF_INET,SOCK_STREAM,0);
+	if(se_socket<0)
+	{/*{{{*/
+		printf("socket fail");
+		exit(0);
+	}/*}}}*/
+	if(bind(se_socket,(void*)&se_addr,sizeof(se_addr))==-1)
+	{/*{{{*/
+		printf("bind fail");
+		exit(0);
+	}/*}}}*/
+	listen(se_socket,5);
+	char buf[10];
+	int len=sizeof(cl_addr);
+	time_t rawtime;
+	struct tm *timeinfo;
+	char *str=(char *)malloc(10);
+	while(!Over)
+	{/*{{{*/
+		cl_socket=accept(se_socket,(void*)&cl_addr,&len);
+		printf("%u\n",ntohl(cl_addr.sin_addr.s_addr));
+		time(&rawtime);
+		timeinfo=localtime(&rawtime);
+		printf("Have Tcp client connect\n");
+		printf("\007the current time is: %s",asctime(timeinfo));
+		while(!Over){			
+			read(cl_socket,buf,sizeof(buf));
+		   	printf("ESP8266 send data: %s\n",buf);
+			
+		}
+//		printf("Please input char\n");
+//		scanf("%s",str);
+//		printf("Input char is:%s\n",str);
+ //		write(cl_socket,str,10);	
+// 		write(cl_socket,"test",10);	
+	}/*}}}*/
+	close(cl_socket);
+	close(se_socket);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
