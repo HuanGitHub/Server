@@ -15,6 +15,7 @@ void get_HTTP_File_name(char *buf,int buflen,char *file_name,char *type);
 int main()
 {
 	int Over=0;
+	char i;
 	int read_len;
 	char *http = " /index.html HTTP";
 	int se_socket,cl_socket;
@@ -40,38 +41,16 @@ int main()
 	while(!Over)
 	{/*{{{*/
 		cl_socket=accept(se_socket,(void*)&cl_addr,&len);
-			read_len = read(cl_socket,buf,sizeof(buf));
-
-		   	printf(" %d\r\n,%s\n",read_len, buf);		
+		read_len = read(cl_socket,buf,sizeof(buf));
+		for(i=0;i<10;i++)
+			printf("%d\n",buf[i]);
+	//	printf(" %d\r\n,%s\n",read_len, buf);		
 
 	}/*}}}*/
 	close(cl_socket);
 	close(se_socket);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
