@@ -38,12 +38,13 @@ int main()
 	char buf[2048];
 	int len=sizeof(cl_addr);
 	char *str=(char *)malloc(10);
+	cl_socket=accept(se_socket,(void*)&cl_addr,&len);
 	while(!Over)
 	{/*{{{*/
-		cl_socket=accept(se_socket,(void*)&cl_addr,&len);
 		read_len = read(cl_socket,buf,sizeof(buf));
 		for(i=0;i<10;i++)
-			printf("%d\n",buf[i]);
+			printf("%d\t",buf[i]);
+		printf("\r\n");
 	//	printf(" %d\r\n,%s\n",read_len, buf);		
 
 	}/*}}}*/
